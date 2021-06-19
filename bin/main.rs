@@ -14,8 +14,7 @@ use std::fs;
 use std::time::Duration;
 
 //struct, spawn multiple threads
-//Threadpool in lib.rs
-use server_threadpool::ThreadPool;
+//Threadpool
 
 fn main() {
     //define listener for localhost port 7878
@@ -83,5 +82,3 @@ fn handle_connection(mut stream : TcpStream) {
     //ensure all bytes are transferred
     stream.flush().unwrap();
 }
-
-//NOTE: Run $cargo check --> compiler errors
