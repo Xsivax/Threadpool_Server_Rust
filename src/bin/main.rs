@@ -14,17 +14,23 @@ use std::fs;
 use std::time::Duration;
 
 //struct, spawn multiple threads
-//Threadpool
+//Threadpool in lib.rs
+use server_threadpool::ThreadPool;
 
 fn main() {
+
+    println!("Type 127.0.0.1:7878 in the browser to connect");
     //define listener for localhost port 7878
     let listener = TcpListener::bind("127.0.0.1:7878").unwrap();
 
     //define threadpool with 4 treads
-    let pool = ThreadPool::new(4);
+    let pool = ThreadPool::new(8);
 
     //handle each incoming request in loop
-    for stream in listener.incoming() {
+
+    //take(3) : demonstration purpose : shutdown after 2 requests
+        //real-world: shutdown command
+    for stream in listener.incoming().take(3) {
 
         //declare each request as stream, return type Result<TcpStream, panic>
         let stream = stream.unwrap();
@@ -82,3 +88,5 @@ fn handle_connection(mut stream : TcpStream) {
     //ensure all bytes are transferred
     stream.flush().unwrap();
 }
+
+//NOTE: Run $cargo check --> compiler errors
